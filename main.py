@@ -13,9 +13,9 @@ def sleep():
     time.sleep(t)
 
 # screen stuff
-width, height = 1280,720
+width, height = 1000,600
 backgroundColor = 0,0,0
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((1000, 600))
 
 while True:
   screen.fill(backgroundColor)
