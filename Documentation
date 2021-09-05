@@ -1,0 +1,93 @@
+IDEAS
+
+#Locations?
+#should we add(randomised?) location names?
+#Maybe we can allow the player to call functions, quick travel, etc.
+#to do that we would need a console which player runs messages in but that kind of stuff can get complicated fast
+player_commands = ['exit','qt','e']
+#qt being quick travel, e being the button for inventory(will there be a inventory, or only having 1 slot for handheld items and how would that work?)
+#maybe this kind of thing as the players input?
+while game == running:
+ player_command = input('> ')
+ if player_command in player_commands:
+   if player_command in ['qt']:
+     print('where you want to quick travel?')
+# Hunting grounds
+   random intervals between monsters. If killed enough then print("the ___ has gone silent, return to action menu?)
+
+
+
+
+
+STATISTICS
+ #Very Easy:
+ #0.5 x enemy hp + damage
+ #2x gold
+ #1.5x player health
+ #0.8 x encounter rate
+ #1.5x more loot (maybe chance?)
+ #50 stat points at start
+ #no ending, replaced by cake :) 
+
+ #Easy:
+ #0.8x enemy hp + damage
+ #1.25x gold
+ #1.2x player health
+ #0.9x encounter rate
+ #1.25x loot
+ #40 stat points at start
+ #standard ending
+
+
+ #Normal
+ #1x enemy hp + damage
+ #1x gold
+ #1x player health
+ #1x encounter rate
+ #1x loot
+ #30 stat points at start
+ #standard ending
+
+ #Hard
+ 1.2x enemy hp + damage
+ 0.75x gold
+ 0.8x player health
+ 1.1x encounter rate
+ 0.75x loot
+ 20 stat points to start
+ #standard ending
+
+ #Soulcrushing
+ 2x enemy damage
+ 1.5x enemy hp
+ 0.4x gold
+ 10x encounter 
+ 0.5x loot
+ 10 stat points to start
+ #you da cool person or smth why did you do this ending
+
+
+ #Secret
+ 100x enemy hp + damage
+ 0.1x gold
+ 0.1x player health
+ 10000x encounter rate
+ 0.0001x loot
+ 0 stat points to start
+
+
+#Base Chances:
+ #Very Common - Gray
+ #40%
+ #Common - Brown
+ #30%
+ #Uncommon - Green
+ #15%
+ #Rare - Blue
+ #7.5%
+ #Epic - Purple
+ #6%
+ #Legendary - Yellowey/orange
+ #1.5%
+ #Mythical (unique)
+ #0%

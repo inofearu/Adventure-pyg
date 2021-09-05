@@ -1,0 +1,76 @@
+strength = str(input('How many points do you want in strength? \n'))
+if strength in str(range(0,stat_points)):
+ strength = int(strength)
+ stat_points = stat_points - strength
+ print('You have',stat_points, 'left')
+
+#Not being used anymore
+#definition
+
+def randassign():
+  global stat_points
+  r = random.randint(1,7)
+  if r == 1:
+    global strength
+    stat_points = stat_points - 1
+    strength = strength + 1
+  if r == 2:
+    global perception
+    stat_points = stat_points - 1
+    perception = perception + 1
+  if r == 3:
+    global endurance
+    stat_points = stat_points - 1
+    endurance = endurance + 1
+  if r == 4:
+    global charisma
+    stat_points = stat_points - 1
+    charisma = charisma + 1
+  if r == 5:
+    global intelligence
+    stat_points = stat_points - 1
+    intelligence = intelligence + 1
+  if r == 6:
+    global agility
+    stat_points = stat_points - 1
+    agility = agility + 1
+  if r == 7:
+    global luck
+    stat_points = stat_points - 1
+    luck = luck + 1
+  if stat_points > 0:
+    randassign()
+
+
+#second part
+
+  if stat_points > 0:
+    print('\nYou have',stat_points, 'left\nDo you want to randomly assign the rest to different stats? Otherwise they will be voided\nY/N\n')
+    randomorkeep = input('> ')
+    randomorkeep = randomorkeep.lower()
+    if randomorkeep in ["y","n"]:
+      if randomorkeep in ["y"]:
+        print("Assigning now...")
+        randassign()
+      else:
+        print("Voiding points...")
+        stat_points = 0
+    if stat_points == 0:
+    print(stat_points, 'stat points left')
+    print('Strength -', strength)
+    print('Perception -', perception)
+    print('Endurance -', endurance)
+    print('Intelligence -', intelligence)
+    print('Agility -', agility)
+    print('Luck -', luck)
+
+
+dev_stats_assigned = 0
+
+
+global dev_stats_assigned
+      dev_stats_assigned = 1
+
+
+if switch == 1:
+  print('Creative stats assigned, skipping regular assignment')
