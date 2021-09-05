@@ -21,7 +21,7 @@ while True:
   screen.fill(backgroundColor)
   pygame.display.flip()
 
-# Difficultys
+# Difficulties
 
 # Creative Mode
 def creative():
