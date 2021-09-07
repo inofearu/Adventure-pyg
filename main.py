@@ -14,12 +14,10 @@ def sleep():
 
 # screen stuff
 width, height = 1000,600
-backgroundColor = 0,0,0
-screen = pygame.display.set_mode((1000, 600))
-
-while True:
-  screen.fill(backgroundColor)
-  pygame.display.flip()
+backgroundColor = 79, 105, 198
+screen = pygame.display.set_mode((800, 600))
+screen.fill(backgroundColor)
+pygame.display.flip()
 
 # Difficulties
 
