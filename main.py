@@ -1,24 +1,109 @@
 # Modules
 import random
 import time
-import pygame
+import pygame, sys
+from pygame import freetype
 pygame.init()
 from colorama import Fore
 from colorama import Style
 from colorama import Back
-
 # Sleep
 def sleep():
     t = random.randint(0, 5)
     time.sleep(t)
-
+Fonts = ["comicsansms","dejavusansmono","freesans","dejavusans","freeserif","freemono"]
 # screen stuff
+strength = 0
+perception = 0
+endurance = 0
+luck = 0
+charisma = 0
+intelligence = 0
+agility = 0
+Font = 1
+Size = 0
+font = pygame.font.SysFont(Fonts[Font], Size)
+Text = ''
+Color = 0, 0, 0
+fontUnderline= font
+fontUnderline.set_underline(True)
+textUnderline = fontUnderline.render(Text, True, (Color))
+pygame.display.set_caption('Adventure Game')
+BackgroundColor = (79, 105, 198)
+Black = ( 0, 0, 0)
+White = (255, 255, 255)
+Green = (0, 255, 0)
+Red = ( 255, 0, 0)
 width, height = 1000,600
-backgroundColor = 79, 105, 198
-screen = pygame.display.set_mode((800, 600))
-screen.fill(backgroundColor)
+screen = pygame.display.set_mode((610, 325))
+def DrawRectangle(color,X,Y,Height,Width,Location):
+  global width
+  global height
+  if Location in ['L4']:
+    X = (screen.get_width() // 4) - X
+    Y = (screen.get_height() // 9) - Y
+    print(X,Y)
+    pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
+    pygame.display.flip()
+  else:
+    pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
+    pygame.display.flip()
+screen.fill(BackgroundColor)
+def Text(Text,Color,Font,Size,Location,wm,hm,Underline):
+  font = pygame.font.SysFont(Fonts[Font], Size)
+  if Underline == True:
+    fontUnderline= font
+    fontUnderline.set_underline(True)
+    textUnderline = fontUnderline.render(Text, True, (Color))
+    if Location == 'TopCentre':
+      Location = 320 + wm - textUnderline.get_width() // 2, 50 + hm - textUnderline.get_height() // 1
+    elif Location == 'L':
+      Location = 320 + wm - textUnderline.get_width() // .4, 100 +  hm - textUnderline.get_height() // 1
+    elif Location == 'R':
+      Location = 320 + wm - textUnderline.get_width() // 9, 100 + hm - textUnderline.get_height() // 1
+    screen.blit(textUnderline,(Location))
+  else:
+    text = font.render(Text, True, (Color))
+    if Location == 'TopCentre':
+      Location = 320 + wm - text.get_width() // 2, 50 + hm - text.get_height() // 1
+    elif Location == 'L4':
+      Location = 320 + wm - text.get_width() // .4, 100 + hm - text.get_height() // 1
+    elif Location == 'R4':
+      Location = 320 + wm - text.get_width() // 9, 100 + hm - text.get_height() // 1
+    screen.blit(text,(Location))
+def StatScreenUpdate():
+  screen.fill(BackgroundColor)
+  global strength
+  strength = str(strength)
+  global perception
+  perception = str(perception)
+  global endurance
+  endurance = str(endurance)
+  global luck
+  luck = str(luck)
+  global agility
+  agility = str(agility)
+  global charisma
+  charisma = str(charisma)
+  global intelligence
+  intelligence = str(intelligence)
+  DrawRectangle((255,255,255),85,-44,150,150,'L4')
+  Text('Player Menu',Black,5,36,'TopCentre',0,0,True)
+  Text('Strength:' + strength,Black,1,16,'L4',0,0,False)
+  Text('Percepition:' + perception,Black,1,16,'L4',74,25,False)
+  Text('Endurance:' + endurance,Black,1,16,'L4',23,50,False)
+  Text('Luck:' + luck,Black,1,16,'L4',-102,75,False)
+  Text('Agility:' + agility,Black,1,16,'L4',-28,100,False)
+  Text('Intelligence:' + intelligence,Black,1,16,'L4',96,125,False)
+  strength = int(strength)
+  perception = int(perception)
+  endurance = int(endurance)
+  luck = int(luck)
+  agility = int(agility)
+  intelligence = int(intelligence)
+  charisma = int(charisma)
+StatScreenUpdate()
 pygame.display.flip()
-
 # Difficulties
 
 # Creative Mode
@@ -231,6 +316,7 @@ switch = 0
 def name_selection():
   global name
   name = input("What is your name? \n> ")
+  StatScreenUpdate()
 name_selection()
 # difficulty select
 def difficulty_select():
@@ -323,7 +409,7 @@ def stat_point_assign():
    strength = str(input('How many points do you want in strength? \n'))
    if strength in zeroten:
      strength = int(strength)
-     stat_points = stat_points - strength
+     stat_points -= strength
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -333,7 +419,7 @@ def stat_point_assign():
    perception = str(input('How many points do you want in perception? \n'))
    if perception in zeroten:
      perception = int(perception)
-     stat_points = stat_points - perception
+     stat_points -= perception
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -343,7 +429,7 @@ def stat_point_assign():
    endurance = str(input('How many points do you want in endurance? \n'))
    if endurance in zeroten:
      endurance = int(endurance)
-     stat_points = stat_points - endurance
+     stat_points -= endurance
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -353,7 +439,7 @@ def stat_point_assign():
    charisma = str(input('How many points do you want in charisma? \n'))
    if charisma in zeroten:
      charisma = int(charisma)
-     stat_points = stat_points - charisma
+     stat_points -= charisma
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -363,7 +449,7 @@ def stat_point_assign():
    intelligence = str(input('How many points do you want in intelligence? \n'))
    if intelligence in zeroten:
      intelligence = int(intelligence)
-     stat_points = stat_points - intelligence
+     stat_points -= intelligence
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -373,7 +459,7 @@ def stat_point_assign():
    agility = str(input('How many points do you want in agility? \n'))
    if agility in zeroten:
      agility = int(agility)
-     stat_points = stat_points - agility
+     stat_points -= agility
      print('You have',stat_points, 'stat points left') 
    else:
      print('Please pick a number between 0 and 10\n')
@@ -383,7 +469,7 @@ def stat_point_assign():
    luck = str(input('How many points do you want in luck? \n'))
    if luck in zeroten:
      luck = int(luck)
-     stat_points = stat_points - luck 
+     stat_points -= luck 
    else:
      print('Please pick a number between 0 and 10\n')
      stat_points = base_points
@@ -399,6 +485,7 @@ def stat_point_assign():
   print('Strength -', strength)
   print('Perception -', perception)
   print('Endurance -', endurance)
+  print('Charisma -', charisma)
   print('Intelligence -', intelligence)
   print('Agility -', agility)
   print('Luck -', luck)
