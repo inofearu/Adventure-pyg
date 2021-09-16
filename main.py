@@ -1,4 +1,5 @@
 # Modules
+import Update
 import random
 import time
 import pygame, sys
@@ -13,6 +14,19 @@ def sleep():
     time.sleep(t)
 Fonts = ["comicsansms","dejavusansmono","freesans","dejavusans","freeserif","freemono"]
 # screen stuff
+# Starting Defines
+player_gold = 100
+max_player_health = 100
+current_player_health = 100
+max_player_stamina = 100
+current_player_stamina = 100
+player_health_modifier = 1.2
+player_level = 1
+player_xp = 0
+switch = 0
+Coin_PNG = pygame.image.load('Coin.png')
+Heart_PNG = pygame.image.load('Heart.png')
+Stamina_PNG = pygame.image.load('Stamina.png')
 strength = 0
 perception = 0
 endurance = 0
@@ -20,6 +34,8 @@ luck = 0
 charisma = 0
 intelligence = 0
 agility = 0
+stat_points = 'N/A'
+name = ''
 Font = 1
 Size = 0
 font = pygame.font.SysFont(Fonts[Font], Size)
@@ -34,76 +50,15 @@ Black = ( 0, 0, 0)
 White = (255, 255, 255)
 Green = (0, 255, 0)
 Red = ( 255, 0, 0)
+Blue = (0,96,255)
 width, height = 1000,600
 screen = pygame.display.set_mode((610, 325))
-def DrawRectangle(color,X,Y,Height,Width,Location):
-  global width
-  global height
-  if Location in ['L4']:
-    X = (screen.get_width() // 4) - X
-    Y = (screen.get_height() // 9) - Y
-    print(X,Y)
-    pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
-    pygame.display.flip()
-  else:
-    pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
-    pygame.display.flip()
-screen.fill(BackgroundColor)
-def Text(Text,Color,Font,Size,Location,wm,hm,Underline):
-  font = pygame.font.SysFont(Fonts[Font], Size)
-  if Underline == True:
-    fontUnderline= font
-    fontUnderline.set_underline(True)
-    textUnderline = fontUnderline.render(Text, True, (Color))
-    if Location == 'TopCentre':
-      Location = 320 + wm - textUnderline.get_width() // 2, 50 + hm - textUnderline.get_height() // 1
-    elif Location == 'L':
-      Location = 320 + wm - textUnderline.get_width() // .4, 100 +  hm - textUnderline.get_height() // 1
-    elif Location == 'R':
-      Location = 320 + wm - textUnderline.get_width() // 9, 100 + hm - textUnderline.get_height() // 1
-    screen.blit(textUnderline,(Location))
-  else:
-    text = font.render(Text, True, (Color))
-    if Location == 'TopCentre':
-      Location = 320 + wm - text.get_width() // 2, 50 + hm - text.get_height() // 1
-    elif Location == 'L4':
-      Location = 320 + wm - text.get_width() // .4, 100 + hm - text.get_height() // 1
-    elif Location == 'R4':
-      Location = 320 + wm - text.get_width() // 9, 100 + hm - text.get_height() // 1
-    screen.blit(text,(Location))
-def StatScreenUpdate():
-  screen.fill(BackgroundColor)
-  global strength
-  strength = str(strength)
-  global perception
-  perception = str(perception)
-  global endurance
-  endurance = str(endurance)
-  global luck
-  luck = str(luck)
-  global agility
-  agility = str(agility)
-  global charisma
-  charisma = str(charisma)
-  global intelligence
-  intelligence = str(intelligence)
-  DrawRectangle((255,255,255),85,-44,150,150,'L4')
-  Text('Player Menu',Black,5,36,'TopCentre',0,0,True)
-  Text('Strength:' + strength,Black,1,16,'L4',0,0,False)
-  Text('Percepition:' + perception,Black,1,16,'L4',74,25,False)
-  Text('Endurance:' + endurance,Black,1,16,'L4',23,50,False)
-  Text('Luck:' + luck,Black,1,16,'L4',-102,75,False)
-  Text('Agility:' + agility,Black,1,16,'L4',-28,100,False)
-  Text('Intelligence:' + intelligence,Black,1,16,'L4',96,125,False)
-  strength = int(strength)
-  perception = int(perception)
-  endurance = int(endurance)
-  luck = int(luck)
-  agility = int(agility)
-  intelligence = int(intelligence)
-  charisma = int(charisma)
-StatScreenUpdate()
-pygame.display.flip()
+
+Update.ClearScreen()
+Update.Gold(player_gold)
+Update.HealthStamina(current_player_health,max_player_health,current_player_stamina,max_player_stamina)
+Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+Update.StrengthStat(strength)
 # Difficulties
 
 # Creative Mode
@@ -305,18 +260,16 @@ def redocontinuem():
 # Yes List
 Yes = ["Yes", "yes", "Y", "y", "Sure", "sure", "Ye", "ye"]
 
-# Starting Defines
-player_gold = 100
-player_health = 100
-player_stamina = 100
-player_level = 1
-player_xp = 0
-switch = 0
 # Program Start
 def name_selection():
   global name
-  name = input("What is your name? \n> ")
-  StatScreenUpdate()
+  name = input("What is your name?  <18 characters \n> ")
+  if len(name) < 18:
+    pass
+  else:
+    print('\nName has to be less then 18 characters!\n')
+    name_selection()
+  Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,name,stat_points)
 name_selection()
 # difficulty select
 def difficulty_select():
@@ -368,15 +321,24 @@ def creativemode_stat_assign():
       global player_health
       global player_stamina
       strength = int(input('Strength > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       perception = int(input('Perception > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       endurance = int(input('Endurance > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       intelligence = int(input('Intelligence > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       agility = int(input('Agility > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       luck = int(input('Luck > '))
+      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
       print()
       player_gold = input('Starting Gold > ')
+      Update.Gold(player_gold)
       player_health = input('Input Health > ')
+      Update.HealthStamina(current_player_health,max_player_health,current_player_stamina,max_player_stamina)
       player_stamina = input('Input Stamina > ')
+      Update.HealthStamina(current_player_health,max_player_health,current_player_stamina,max_player_stamina)
 
 # initial stat assignment
 def stat_point_assign():
@@ -391,13 +353,21 @@ def stat_point_assign():
   global stat_points
   if switch == 0:
    global strength
+   strength = 0
    global perception
+   perception = 0
    global endurance
+   endurance = 0
    global charisma
+   charisma = 0
    global intelligence
+   intelligence = 0
    global agility
+   agility = 0
    global luck
+   luck = 0
    global stat_points
+   Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
    if stat_points < base_points:
      stat_points = base_points
    if stat_points > base_points:
@@ -410,88 +380,99 @@ def stat_point_assign():
    if strength in zeroten:
      strength = int(strength)
      stat_points -= strength
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # perception
-   perception = str(input('How many points do you want in perception? \n'))
-   if perception in zeroten:
-     perception = int(perception)
-     stat_points -= perception
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # endurance
-   endurance = str(input('How many points do you want in endurance? \n'))
-   if endurance in zeroten:
-     endurance = int(endurance)
-     stat_points -= endurance
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # charisma
-   charisma = str(input('How many points do you want in charisma? \n'))
-   if charisma in zeroten:
-     charisma = int(charisma)
-     stat_points -= charisma
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # intelligence
-   intelligence = str(input('How many points do you want in intelligence? \n'))
-   if intelligence in zeroten:
-     intelligence = int(intelligence)
-     stat_points -= intelligence
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # agility
-   agility = str(input('How many points do you want in agility? \n'))
-   if agility in zeroten:
-     agility = int(agility)
-     stat_points -= agility
-     print('You have',stat_points, 'stat points left') 
-   else:
-     print('Please pick a number between 0 and 10\n')
-     stat_points = base_points
-     stat_point_assign()
-   # luck
-   luck = str(input('How many points do you want in luck? \n'))
-   if luck in zeroten:
-     luck = int(luck)
-     stat_points -= luck 
+     print('You have',stat_points, 'stat points left')
+     Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+     # perception
+     perception = str(input('How many points do you want in perception? \n'))
+     if perception in zeroten:
+       perception = int(perception)
+       stat_points -= perception
+       print('You have',stat_points, 'stat points left')
+       Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+       # endurance
+       endurance = str(input('How many points do you want in endurance? \n'))
+       if endurance in zeroten:
+         endurance = int(endurance)
+         stat_points -= endurance
+         print('You have',stat_points, 'stat points left')
+         Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+         # charisma
+         charisma = str(input('How many points do you want in charisma? \n'))
+         if charisma in zeroten:
+           charisma = int(charisma)
+           stat_points -= charisma
+           print('You have',stat_points, 'stat points left')
+           Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+           # intelligence
+           intelligence = str(input('How many points do you want in intelligence? \n'))
+           if intelligence in zeroten:
+             intelligence = int(intelligence)
+             stat_points -= intelligence
+             print('You have',stat_points, 'stat points left') 
+             Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+             # agility
+             agility = str(input('How many points do you want in agility? \n'))
+             if agility in zeroten:
+               agility = int(agility)
+               stat_points -= agility
+               print('You have',stat_points, 'stat points left') 
+               Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+               # luck
+               luck = str(input('How many points do you want in luck? \n'))
+               Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+               if luck in zeroten:
+                  luck = int(luck)
+                  stat_points -= luck 
+                  #if stats points below 0
+                  if stat_points < 0:
+                   print('Error, negative stat points. Please redo.')
+                   stat_point_assign()
+                  #stat point menu with redo / continue question
+                  Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+                  print(stat_points, 'stat points left')
+                  print('Strength -', strength)
+                  print('Perception -', perception)
+                  print('Endurance -', endurance)
+                  print('Charisma -', charisma)
+                  print('Intelligence -', intelligence)
+                  print('Agility -', agility)
+                  print('Luck -', luck)
+                  if stat_points > 0:
+                   discard_question()
+                   redocontinuem()
+               else:
+                 print('Please pick a number between 0 and 10\n')
+                 stat_points = base_points
+                 stat_point_assign()
+             else:
+               print('Please pick a number between 0 and 10\n')
+               stat_points = base_points
+               stat_point_assign()
+           else:
+             print('Please pick a number between 0 and 10\n')
+             stat_points = base_points
+             stat_point_assign()
+         else:
+            print('Please pick a number between 0 and 10\n')
+            stat_points = base_points
+            stat_point_assign()
+       else:
+          print('Please pick a number between 0 and 10\n')
+          stat_points = base_points
+          stat_point_assign()
+     else:
+       print('Please pick a number between 0 and 10\n')
+       stat_points = base_points
+       stat_point_assign()
    else:
      print('Please pick a number between 0 and 10\n')
      stat_points = base_points
      stat_point_assign()
   # stat points below 0 error
-   if stat_points < 0:
-     print('Error, negative stat points. Please redo.')
-     stat_point_assign()
   else:
     creativemode_stat_assign()
     print()
-  print(stat_points, 'stat points left')
-  print('Strength -', strength)
-  print('Perception -', perception)
-  print('Endurance -', endurance)
-  print('Charisma -', charisma)
-  print('Intelligence -', intelligence)
-  print('Agility -', agility)
-  print('Luck -', luck)
-  if stat_points > 0:
-    discard_question()
-  redocontinuem()
 stat_point_assign()
 if switch == 1:
   print('Creative stats assigned, skipping regular assignment...')
+Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)

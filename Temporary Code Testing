@@ -74,3 +74,20 @@ global dev_stats_assigned
 
 if switch == 1:
   print('Creative stats assigned, skipping regular assignment')
+
+
+
+
+
+def DrawBorder(color, Fill,X,Y,Height,Width,BorderSize, Location):
+  global width
+  global height
+  if Location in ['L4']:
+    X = (screen.get_width() // 4) - X
+    Y = (screen.get_height() // 9) - Y
+  pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
+  pygame.draw.rect(screen, Fill, pygame.Rect(X+BorderSize,Y+BorderSize,Height-BorderSize,Width-BorderSize))
+    pygame.display.flip()
+  else:
+    pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
+    pygame.display.flip()
