@@ -1,0 +1,15 @@
+IDEAS:
+#Maybe we can allow the player to call functions, quick travel, etc.
+#to do that we would need a console which player runs messages in but that kind of stuff can get complicated fast
+player_commands = ['exit','qt','e']
+#qt being quick travel, e being the button for inventory(will there be a inventory, or only having 1 slot for handheld items and how would that work?)
+#maybe this kind of thing as the players input?
+while game == running:
+ player_command = input('> ')
+ if player_command in player_commands:
+   if player_command in ['qt']:
+     print('where you want to quick travel?')
+
+
+
+

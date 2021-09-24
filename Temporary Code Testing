@@ -91,3 +91,26 @@ def DrawBorder(color, Fill,X,Y,Height,Width,BorderSize, Location):
   else:
     pygame.draw.rect(screen, color, pygame.Rect(X,Y,Height,Width))
     pygame.display.flip()
+
+#previous idea that didnt work
+class Biome:
+  def __init__(self,Chunk,Row,Column,mapX,mapY):
+    self.XStartPoint = Row*8
+    self.YStartPoint = Column*8
+    self.Chunk = ''
+    amountofchunks = ((mapX//8)*(mapX//8))//4
+    global i
+    for i in range(0,amountofchunks):
+      global m
+      m += 1
+      e = i*8
+      f = i*8+8
+      if self.XStartPoint >= e and self.XStartPoint <= f:
+       if self.YStartPoint >= e and self.YStartPoint <= f:
+         self.Chunk = m
+         i = 7
+      i += 1
+    if self.Chunk in ['']:
+      self.Chunk = 'Error'
+    i = 0
+    m = 0

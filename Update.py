@@ -2,9 +2,9 @@ import pygame
 def functions():
   AvailableFunctions = ['Update.ClearScreen()','Update.Gold(player_gold)','Update.HealthStamina(current_player_health,max_player_health,current_player_stamina,max_player_stamina)','Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,\'-Enter Name-\',stat_points)']
   return AvailableFunctions
-Coin_PNG = pygame.image.load('Coin.png')
-Heart_PNG = pygame.image.load('Heart.png')
-Stamina_PNG = pygame.image.load('Stamina.png')
+Coin_PNG = pygame.image.load('Images/Coin.png')
+Heart_PNG = pygame.image.load('Images/Heart.png')
+Stamina_PNG = pygame.image.load('Images/Stamina.png')
 Fonts = ["comicsansms","dejavusansmono","freesans","dejavusans","freeserif","freemono"]
 screen = pygame.display.set_mode((610, 325))
 BackgroundColor = (79, 105, 198)
@@ -106,4 +106,36 @@ def HealthStamina(Health,Max_Health,Stamina,Max_Stamina):
 def StrengthStat(Strength):
   DrawBorder((BackgroundColor),(BackgroundColor), 37,103,166,18.5,2,'L')
   Text('Strength:' + str(Strength),Black,4,16,(40.5,103),0,0,False)
+  pygame.display.flip()
+def PerceptionStat(Perception):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,128,166,18.5,2,'L')
+  Text('Perception:' + str(Perception),Black,4,16,(40.5,128),0,0,False)
+  pygame.display.flip()
+def EnduranceStat(Endurance):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,153,166,18.5,2,'L')
+  Text('Endurance:' + str(Endurance),Black,4,16,(40.5,153),23,50,False)
+  pygame.display.flip()
+def CharismaStat(Charisma):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,178,166,18.5,2,'L')
+  Text('Charisma:' + str(Charisma),Black,4,16,(40.5,178),-4,100,False)
+  pygame.display.flip()
+def IntelligenceStat(Intelligence):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,203,166,18.5,2,'L')
+  Text('Intelligence:' + str(Intelligence),Black,4,16,(40.5,203),96,150,False)
+  pygame.display.flip()
+def AgilityStat(Agility):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,228,166,18.5,2,'L')
+  Text('Agility:' + str(Agility),Black,4,16,(40.5,228),-28,125,False)
+  pygame.display.flip()
+def LuckStat(Luck):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,253,166,18.5,2,'L')
+  Text('Luck:' + str(Luck),Black,4,16,(40.5,253),-102,75,False)
+  pygame.display.flip()
+def NameText(Name):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,60,166,18.5,2,'L')
+  Text('Name: '+Name,Black,4,12,(40,65),0,0,False)
+  pygame.display.flip()
+def StatPoints(Stat_Points):
+  DrawBorder((BackgroundColor),(BackgroundColor), 37,83,166,18.5,2,'L')
+  Text('Stat Points:' + str(Stat_Points),Black,4,16,(40.5,83),0,0,False)
   pygame.display.flip()

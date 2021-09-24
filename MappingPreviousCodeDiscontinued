@@ -1,0 +1,94 @@
+#How to gather data from a biome
+#print(getattr(globals()[f"Biome{j}"],'XStartPoint'),getattr(globals()[f"Biome{j}"],'YStartPoint'))
+#PreviousBiome = globals()[f"Biome{i-1}"]
+LeftCorner = ''
+for i in range(1,j+1):
+  try:
+   Update.DrawBorder((0,0,0),(100,100,100), getattr(globals()[f"Biome{i}"],'XStartPoint')+20,getattr(globals()[f"Biome{i}"],'YStartPoint')+20,8,8,1,'R')
+   if getattr(globals()[f"Biome{i}"],'XStartPoint') <= 0:
+     if getattr(globals()[f"Biome{i}"],'YStartPoint') >= MapY:
+       LeftCorner = globals()[f"Biome{i}"]
+       Update.DrawBorder((0,0,0),(255,100,100), getattr(globals()[f"Biome{i}"],'XStartPoint')+20,getattr(globals()[f"Biome{i}"],'YStartPoint')+20,8,8,1,'R')
+  except:
+    print('Ooof')
+    pass
+Update.DrawBorder((0,0,0),(0,200,0), LeftCorner.XStartPoint+20,LeftCorner.YStartPoint+20,8,8,1,'R')
+#print(LeftCorner.SquareValue)
+setattr(LeftCorner,'IsCorner',True)
+time.sleep(0.5)
+for i in range(1,j+1):
+  try:
+   Square = globals()[f"Biome{i}"]
+   Square.AssignBiome()
+   #print(Square.SquareValue,',',Square.Biome,Square.XStartPoint,'-',Square.YStartPoint)
+   Square.BiomeColors()
+  except:
+    pass
+Update.DrawBorder((0,0,0),(0,0,0), 18,18,screen.get_width()-36,screen.get_height()-36,1,'R')
+for i in range(0,24):
+  for i in range(1,j+1):
+    try:
+      Square = globals()[f"Biome{i}"]
+      try:
+        PreviousSquare = globals()[f"Biome{i-1}"]
+      except:
+        pass
+      try:
+        NextSquare = globals()[f"Biome{i+1}"]
+      except:
+        pass
+      m = g//8
+      try:
+        UpSquare = globals()[f"Biome{i-m}"]
+      except:
+        pass
+      try:
+        DownSquare = globals()[f"Biome{i+m}"]
+      except:
+        pass
+      RandNum1 = random.randint(0,6)
+      if RandNum1 == 1:
+        Square.Biome = PreviousSquare.Biome
+      try:
+        if RandNum1 == 2:
+          Square.Biome = UpSquare.Biome
+      except:
+        pass
+      try:
+        if RandNum1 == 3:
+          Square.Biome = DownSquare.Biome
+      except:
+        pass
+      try:
+        if RandNum1 == 0:
+          Square.Biome = NextSquare.Biome
+      except:
+        pass
+      Square.BiomeColors()
+    except:
+      pass
+for i in range(1,j+1):
+  try:
+   Square = globals()[f"Biome{i}"]
+   PreviousSquare = globals()[f"Biome{i-1}"]
+   try:
+     if not Square.Biome == PreviousSquare.Biome:
+       pygame.draw.line(screen, (0,0,0), (Square.XStartPoint+20,Square.YStartPoint+20), (Square.XStartPoint+20,Square.YStartPoint+27))
+       pygame.display.flip()
+   except:
+    pass
+  except:
+    pass
+  m = g//4
+  try:
+   Square = globals()[f"Biome{i}"]
+   UpSquare = globals()[f"Biome{i-m}"]
+   try:
+     if not Square.Biome == UpSquare.Biome:
+       pygame.draw.line(screen, (0,0,0), (Square.XStartPoint+27,Square.YStartPoint+20), (Square.XStartPoint+20,Square.YStartPoint+20))
+       pygame.display.flip()
+   except:
+     pass
+  except:
+   pass
+input()

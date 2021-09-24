@@ -1,5 +1,7 @@
 # Modules
 import Update
+import Mapping
+import Monsters
 import random
 import time
 import pygame, sys
@@ -24,9 +26,9 @@ player_health_modifier = 1.2
 player_level = 1
 player_xp = 0
 switch = 0
-Coin_PNG = pygame.image.load('Coin.png')
-Heart_PNG = pygame.image.load('Heart.png')
-Stamina_PNG = pygame.image.load('Stamina.png')
+Coin_PNG = pygame.image.load('Images/Coin.png')
+Heart_PNG = pygame.image.load('Images/Heart.png')
+Stamina_PNG = pygame.image.load('Images/Stamina.png')
 strength = 0
 perception = 0
 endurance = 0
@@ -57,10 +59,8 @@ screen = pygame.display.set_mode((610, 325))
 Update.ClearScreen()
 Update.Gold(player_gold)
 Update.HealthStamina(current_player_health,max_player_health,current_player_stamina,max_player_stamina)
-Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
-Update.StrengthStat(strength)
+Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'--Enter Name--',stat_points)
 # Difficulties
-
 # Creative Mode
 def creative():
   #modifiers
@@ -269,7 +269,7 @@ def name_selection():
   else:
     print('\nName has to be less then 18 characters!\n')
     name_selection()
-  Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,name,stat_points)
+  Update.NameText(name)
 name_selection()
 # difficulty select
 def difficulty_select():
@@ -314,6 +314,7 @@ def creativemode_stat_assign():
       global strength
       global perception
       global endurance
+      global charisma
       global intelligence
       global agility
       global luck
@@ -321,17 +322,19 @@ def creativemode_stat_assign():
       global player_health
       global player_stamina
       strength = int(input('Strength > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.StrengthStat(strength)
       perception = int(input('Perception > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.PerceptionStat(perception)
       endurance = int(input('Endurance > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.EnduranceStat(endurance)
+      intelligence = int(input('Charisma > '))
+      Update.CharismaStat(charisma)
       intelligence = int(input('Intelligence > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.IntelligenceStat(intelligence)
       agility = int(input('Agility > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.AgilityStat(agility)
       luck = int(input('Luck > '))
-      Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+      Update.LuckStat(luck)
       print()
       player_gold = input('Starting Gold > ')
       Update.Gold(player_gold)
@@ -367,7 +370,7 @@ def stat_point_assign():
    global luck
    luck = 0
    global stat_points
-   Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+   Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,name,stat_points)
    if stat_points < base_points:
      stat_points = base_points
    if stat_points > base_points:
@@ -381,45 +384,51 @@ def stat_point_assign():
      strength = int(strength)
      stat_points -= strength
      print('You have',stat_points, 'stat points left')
-     Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+     Update.StatPoints(stat_points)
+     Update.StrengthStat(strength)
      # perception
      perception = str(input('How many points do you want in perception? \n'))
      if perception in zeroten:
        perception = int(perception)
        stat_points -= perception
        print('You have',stat_points, 'stat points left')
-       Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+       Update.StatPoints(stat_points)
+       Update.PerceptionStat(perception)
        # endurance
        endurance = str(input('How many points do you want in endurance? \n'))
        if endurance in zeroten:
          endurance = int(endurance)
          stat_points -= endurance
          print('You have',stat_points, 'stat points left')
-         Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+         Update.StatPoints(stat_points)
+         Update.EnduranceStat(endurance)
          # charisma
          charisma = str(input('How many points do you want in charisma? \n'))
          if charisma in zeroten:
            charisma = int(charisma)
            stat_points -= charisma
            print('You have',stat_points, 'stat points left')
-           Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+           Update.StatPoints(stat_points)
+           Update.CharismaStat(charisma)
            # intelligence
            intelligence = str(input('How many points do you want in intelligence? \n'))
            if intelligence in zeroten:
              intelligence = int(intelligence)
              stat_points -= intelligence
              print('You have',stat_points, 'stat points left') 
-             Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+             Update.StatPoints(stat_points)
+             Update.IntelligenceStat(intelligence)
              # agility
              agility = str(input('How many points do you want in agility? \n'))
              if agility in zeroten:
                agility = int(agility)
                stat_points -= agility
                print('You have',stat_points, 'stat points left') 
-               Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+               Update.StatPoints(stat_points)
+               Update.AgilityStat(agility)
                # luck
                luck = str(input('How many points do you want in luck? \n'))
-               Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+               Update.StatPoints(stat_points)
                if luck in zeroten:
                   luck = int(luck)
                   stat_points -= luck 
@@ -428,7 +437,7 @@ def stat_point_assign():
                    print('Error, negative stat points. Please redo.')
                    stat_point_assign()
                   #stat point menu with redo / continue question
-                  Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+                  Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,name,stat_points)
                   print(stat_points, 'stat points left')
                   print('Strength -', strength)
                   print('Perception -', perception)
@@ -475,4 +484,4 @@ def stat_point_assign():
 stat_point_assign()
 if switch == 1:
   print('Creative stats assigned, skipping regular assignment...')
-Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,'-Enter Name-',stat_points)
+Update.ScreenText(strength,perception,endurance,charisma,luck,agility,intelligence,name,stat_points)
