@@ -1,28 +1,34 @@
+import time
+import pygame
+import random
+import Update
+pygame.init()
 MapX,MapY=0,0
 j = 0
 counter = 0
 amountofsquaresperchunk = 4
 #please put in the square root of the amount of squares you want
 biomes = []
-RarityForest = 5
+RarityForest = 100
 for i in range(0,RarityForest):
   biomes.append('Forest')
-RarityDesert = 5
+RarityDesert = 50
 for i in range(0,RarityDesert):
   biomes.append('Desert')
-RaritySwamp = 1
+RaritySwamp = 25
 for i in range(0,RaritySwamp):
   biomes.append('Swamp')
-RarityOcean = 1
+RarityOcean = 15
 for i in range(0,RarityOcean):
   biomes.append('Ocean')
+RarityCorrupt = 6
+for i in range(0,RarityCorrupt):
+  biomes.append('Corrupt')
+  RarityTundra = 10
+for i in range(0,RarityTundra):
+  biomes.append("Tundra")    
 m = 0
 i = 0
-import time
-import pygame
-import random
-import Update
-pygame.init()
 class Chunk:
   def __init__(self,Square,Chunk,Column,Row,mapX,mapY):
     self.Row = Row
@@ -63,6 +69,13 @@ class Chunk:
     if self.Biome in ['Ocean']:
       self.Fill = (0,0,150)
       Update.DrawBorder((0,0,0),self.Fill, getattr(globals()[f"Chunk{j}"],'XStartPoint')*4+20,getattr(globals()[f"Chunk{j}"],'YStartPoint')*4+20,8*4,8*4,2,'R')
+    if self.Biome in ['Corrupt']:
+      self.Fill = (75,0,130)
+      Update.DrawBorder((0,0,0),self.Fill, getattr(globals()[f"Chunk{j}"],'XStartPoint')*4+20,getattr(globals()[f"Chunk{j}"],'YStartPoint')*4+20,8*4,8*4,2,'R')
+    if self.Biome in ['Tundra']:
+      self.Fill = (165,242,243)
+      Update.DrawBorder((0,0,0),self.Fill, getattr(globals()[f"Chunk{j}"],'XStartPoint')*4+20,getattr(globals()[f"Chunk{j}"],'YStartPoint')*4+20,8*4,8*4,2,'R') 
+        
   def AssignBiome(self):
     BiomeNum = random.randint(0,len(biomes)-1)
     self.Biome = biomes[BiomeNum]
@@ -162,4 +175,5 @@ def ChooseMapSize():
    pygame.display.flip()
    time.sleep(0.025)
 ChooseMapSize()
+
 input()

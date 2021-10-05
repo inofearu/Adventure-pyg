@@ -42,3 +42,9 @@ Hyena = Monster('Hyena')
 Armadillo = Monster('Armadillo')
 #list To Randomly Choose From
 DesertMonsters = [Scorpion,SandShark,Vulture,SentientSandstorm,SandSnake,Coyote,Tarantula,Hyena,Armadillo]
+#EasterEgg
+Boner = Monster('Boner')
+Boner.SetLevel(69420)
+KoolGorilla = Monster('my name is george von cow')
+KoolGorilla.SetLevel(1000000000000000000)
+print(KoolGorilla.Name,'Lvl -',KoolGorilla.Level,'\nMax Health -',KoolGorilla.MaxHealth)
